@@ -1,0 +1,5 @@
+include:
+  - docker-compose-postgres.yaml
+  - docker-compose-keycloak.yaml
+  - docker-compose-minio.yaml
+  - docker-compose-redis.yaml

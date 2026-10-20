@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: application
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Point to realm in keycloak
+          issuer-uri:
+          # Optional: specify JWKS URI directly if issuer-uri check needs to be decoupled
+          jwk-set-uri:

@@ -1,0 +1,5 @@
+rootProject.name = 'luxe-api'
+
+include 'application'
+include 'core-feature'
+include 'security'
