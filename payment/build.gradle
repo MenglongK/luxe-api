@@ -1,0 +1,7 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    // Add payment-specific SDKs/libraries here when needed
+}

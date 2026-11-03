@@ -1,17 +1,15 @@
 plugins {
-    id 'java'
-    id 'org.springframework.boot' version '4.1.1'
-    id 'io.spring.dependency-management' version '1.1.7'
-}
-
-bootJar {
-    enabled = false
-}
-
-jar {
-    enabled = true
+    id 'java-library'
 }
 
 dependencies {
+    // Entities + repositories are this module's public API -> use `api` so
+    // downstream modules (application) also see jakarta.persistence + Spring Data types.
+    api 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+    // Web layer for the REST controller that lives in this module.
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+
+    // Bean validation for DTOs (@NotBlank, @NotNull, @Size, ...).
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 }

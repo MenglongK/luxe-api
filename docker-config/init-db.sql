@@ -1,1 +1,1 @@
-CREATE DATABASE keycloak_db;
+CREATE DATABASE keycloak_postgres;

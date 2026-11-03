@@ -1,6 +1,19 @@
 spring:
   application:
     name: application
+
+  # configuration of database
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  jpa:
+    hibernate:
+      # Auto-creates/updates tables from entities (dev only)
+      ddl-auto: update
+    open-in-view: false
+
+  # configuration of security
   security:
     oauth2:
       resourceserver:
@@ -9,3 +22,9 @@ spring:
           issuer-uri:
           # Optional: specify JWKS URI directly if issuer-uri check needs to be decoupled
           jwk-set-uri:
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
