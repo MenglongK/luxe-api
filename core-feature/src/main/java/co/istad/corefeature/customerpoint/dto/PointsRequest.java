@@ -8,6 +8,13 @@ import lombok.Builder;
 public record PointsRequest(
         @NotNull(message = "Points are required")
         @Positive(message = "Points must be greater than zero")
-        Integer points
+        Integer points,
+
+        String referenceId,
+
+        String description
 ) {
+    public PointsRequest(Integer points) {
+        this(points, null, null);
+    }
 }

@@ -1,6 +1,6 @@
 package co.istad.corefeature.cart.entity;
 
-import co.istad.corefeature.product.entity.ProductVariantEntity;
+import co.istad.corefeature.product.product_variant.entity.ProductVariantEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

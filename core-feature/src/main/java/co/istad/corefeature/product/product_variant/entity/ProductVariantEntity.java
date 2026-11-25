@@ -1,5 +1,6 @@
-package co.istad.corefeature.product.entity;
+package co.istad.corefeature.product.product_variant.entity;
 
+import co.istad.corefeature.product.entity.ProductEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;

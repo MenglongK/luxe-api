@@ -4,7 +4,7 @@ import co.istad.corefeature.facility.entity.FacilityEntity;
 import co.istad.corefeature.inventory.facility_inventory.dto.FacilityInventoryRequest;
 import co.istad.corefeature.inventory.facility_inventory.dto.FacilityInventoryResponse;
 import co.istad.corefeature.inventory.facility_inventory.entity.FacilityInventoryEntity;
-import co.istad.corefeature.product.entity.ProductVariantEntity;
+import co.istad.corefeature.product.product_variant.entity.ProductVariantEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

@@ -195,7 +195,7 @@ class FacilityServiceImplTest {
 
         assertEquals(1, responses.getTotalElements());
         assertEquals(1, responses.getContent().size());
-        assertNotNull(responses.getContent().getFirst().address());
-        assertEquals("Street 1", responses.getContent().getFirst().address().addressLine1());
+        assertNotNull(responses.getContent().get(0).address());
+        assertEquals("Street 1", responses.getContent().get(0).address().addressLine1());
     }
 }

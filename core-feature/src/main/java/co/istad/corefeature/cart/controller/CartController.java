@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/carts")
+@RequestMapping({"/api/v1/carts", "/api/v1/cart"})
 @RequiredArgsConstructor
 public class CartController {
 
@@ -55,7 +55,7 @@ public class CartController {
         return ResponseEntity.ok(ApiResponse.ok("Item added to cart successfully", cartService.addItem(id, request)));
     }
 
-    @PutMapping("/{id}/items/{itemId}")
+    @RequestMapping(value = "/{id}/items/{itemId}", method = {RequestMethod.PATCH, RequestMethod.PUT})
     public ResponseEntity<ApiResponse<CartResponse>> updateItem(@PathVariable UUID id, @PathVariable Long itemId, @Valid @RequestBody CartItemUpdateRequest request) {
         return ResponseEntity.ok(ApiResponse.ok("Cart item updated successfully", cartService.updateItem(id, itemId, request)));
     }

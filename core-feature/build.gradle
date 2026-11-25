@@ -7,6 +7,9 @@ dependencies {
     // downstream modules (application) also see jakarta.persistence + Spring Data types.
     api 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+    // MinIO Object Storage SDK
+    api 'io.minio:minio:8.5.17'
+
     // Web layer for the REST controller that lives in this module.
     implementation 'org.springframework.boot:spring-boot-starter-webmvc'
 

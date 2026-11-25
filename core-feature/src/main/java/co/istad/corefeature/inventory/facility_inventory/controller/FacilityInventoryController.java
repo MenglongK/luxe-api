@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/facility-inventories")
+@RequestMapping({"/api/v1/facility-inventories", "/api/v1/facility-inventory"})
 @RequiredArgsConstructor
 public class FacilityInventoryController {
 
@@ -54,7 +54,7 @@ public class FacilityInventoryController {
         return ResponseEntity.ok(ApiResponse.ok("Facility inventories retrieved successfully", facilityInventoryService.findByProductVariantId(productVariantId)));
     }
 
-    @PutMapping("/{id}")
+    @RequestMapping(value = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
     public ResponseEntity<ApiResponse<FacilityInventoryResponse>> update(@PathVariable Long id, @Valid @RequestBody FacilityInventoryRequest request) {
         return ResponseEntity.ok(ApiResponse.ok("Facility inventory updated successfully", facilityInventoryService.update(id, request)));
     }

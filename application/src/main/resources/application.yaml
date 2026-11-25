@@ -4,14 +4,20 @@ spring:
 
   # configuration of database
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:luxe_postgres}
+    username: ${POSTGRES_USER:luxe}
+    password: ${POSTGRES_PASSWORD:luxe168}
   jpa:
     hibernate:
       # Auto-creates/updates tables from entities (dev only)
       ddl-auto: update
     open-in-view: false
+
+  # multipart file upload limits
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 50MB
 
   # configuration of security
   security:
@@ -22,6 +28,13 @@ spring:
           issuer-uri:
           # Optional: specify JWKS URI directly if issuer-uri check needs to be decoupled
           jwk-set-uri:
+
+# configuration of MinIO Object Storage
+minio:
+  url: http://${MINIO_HOST:localhost}:${MINIO_API_PORT:9000}
+  access-key: ${MINIO_ROOT_USER:luxe}
+  secret-key: ${MINIO_ROOT_PASSWORD:luxe@admin168}
+  bucket-name: ${MINIO_BUCKET_NAME:luxe-bucket}
 
 springdoc:
   api-docs:

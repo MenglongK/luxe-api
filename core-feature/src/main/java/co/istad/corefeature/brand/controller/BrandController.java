@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/brands")
+@RequestMapping({"/api/v1/brands", "/api/v1/brand"})
 @RequiredArgsConstructor
 public class BrandController {
     private final BrandService brandService;
@@ -30,24 +30,23 @@ public class BrandController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<BrandResponse>> findBrandById(@PathVariable Long id) {
-        return ResponseEntity.ok(ApiResponse.ok("Brands retrieved successfully", brandService.findBrandById(id)));
+        return ResponseEntity.ok(ApiResponse.ok("Brand retrieved successfully", brandService.findBrandById(id)));
     }
 
-    @PatchMapping("/{id}")
+    @RequestMapping(value = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
     public ResponseEntity<ApiResponse<BrandResponse>> updateBrand(
             @PathVariable Long id,
             @Valid @RequestBody BrandRequest brandRequest
     ) {
-        return ResponseEntity.ok(ApiResponse.ok("Brands updated successfully", brandService.updateBrand(brandRequest, id)));
+        return ResponseEntity.ok(ApiResponse.ok("Brand updated successfully", brandService.updateBrand(brandRequest, id)));
     }
 
     @PostMapping
     public ResponseEntity<ApiResponse<BrandResponse>> createBrand(
             @Valid @RequestBody BrandRequest brandRequest
-    ){
-        BrandResponse response = brandService.createBrand(brandRequest);
+    ) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.created("Brand created successfully", response));
+                .body(ApiResponse.created("Brand created successfully", brandService.createBrand(brandRequest)));
     }
 
     @DeleteMapping("/{id}")

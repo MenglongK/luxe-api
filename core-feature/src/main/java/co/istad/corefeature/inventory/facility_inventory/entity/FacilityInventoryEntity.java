@@ -1,7 +1,7 @@
 package co.istad.corefeature.inventory.facility_inventory.entity;
 
 import co.istad.corefeature.facility.entity.FacilityEntity;
-import co.istad.corefeature.product.entity.ProductVariantEntity;
+import co.istad.corefeature.product.product_variant.entity.ProductVariantEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

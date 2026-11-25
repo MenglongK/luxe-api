@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/facilities")
+@RequestMapping({"/api/v1/facilities", "/api/v1/facility"})
 @RequiredArgsConstructor
 public class FacilityController {
 
@@ -41,7 +41,7 @@ public class FacilityController {
         return ResponseEntity.ok(ApiResponse.ok("Facility retrieved successfully", facilityService.findById(id)));
     }
 
-    @PutMapping("/{id}")
+    @RequestMapping(value = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
     public ResponseEntity<ApiResponse<FacilityResponse>> update(@PathVariable Long id, @Valid @RequestBody FacilityRequest request) {
         return ResponseEntity.ok(ApiResponse.ok("Facility updated successfully", facilityService.update(id, request)));
     }

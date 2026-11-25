@@ -8,8 +8,8 @@ import co.istad.corefeature.cart.entity.CartEntity;
 import co.istad.corefeature.cart.entity.CartItemEntity;
 import co.istad.corefeature.cart.mapper.CartMapper;
 import co.istad.corefeature.cart.repository.CartRepository;
-import co.istad.corefeature.product.entity.ProductVariantEntity;
-import co.istad.corefeature.product.repository.ProductVariantRepository;
+import co.istad.corefeature.product.product_variant.entity.ProductVariantEntity;
+import co.istad.corefeature.product.product_variant.repository.ProductVariantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
@@ -69,8 +69,12 @@ public class CartServiceImpl implements CartService {
         ProductVariantEntity productVariant = productVariantRepository.findById(request.productVariantId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product variant not found: " + request.productVariantId()));
 
+        if (cart.getItems() == null) {
+            cart.setItems(new ArrayList<>());
+        }
+
         CartItemEntity existing = cart.getItems().stream()
-                .filter(item -> item.getProductVariant().getId().equals(request.productVariantId()))
+                .filter(item -> item.getProductVariant() != null && item.getProductVariant().getId().equals(request.productVariantId()))
                 .findFirst()
                 .orElse(null);
 
@@ -94,6 +98,10 @@ public class CartServiceImpl implements CartService {
     public CartResponse updateItem(UUID cartId, Long itemId, CartItemUpdateRequest request) {
         CartEntity cart = getCart(cartId);
 
+        if (cart.getItems() == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cart item not found: " + itemId);
+        }
+
         CartItemEntity item = cart.getItems().stream()
                 .filter(i -> i.getId().equals(itemId))
                 .findFirst()
@@ -110,6 +118,10 @@ public class CartServiceImpl implements CartService {
     public CartResponse removeItem(UUID cartId, Long itemId) {
         CartEntity cart = getCart(cartId);
 
+        if (cart.getItems() == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cart item not found: " + itemId);
+        }
+
         boolean removed = cart.getItems().removeIf(item -> item.getId().equals(itemId));
         if (!removed) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cart item not found: " + itemId);
@@ -123,7 +135,9 @@ public class CartServiceImpl implements CartService {
     @Transactional
     public CartResponse clearItems(UUID cartId) {
         CartEntity cart = getCart(cartId);
-        cart.getItems().clear();
+        if (cart.getItems() != null) {
+            cart.getItems().clear();
+        }
         cart = cartRepository.save(cart);
         return cartMapper.toResponse(cart);
     }

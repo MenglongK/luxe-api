@@ -17,11 +17,6 @@ public record BrandRequest(
 
         @NotBlank(message = "Logo URL cannot be blank")
         @Size(max = 2048, message = "URL is too long")
-//        @URL(protocol = "https", message = "Must be a valid HTTPS URL")
-//        @Pattern(
-//                regexp = "^https://.*\\.(png|jpg|jpeg|svg|gif)$",
-//                message = "URL must point to a valid image file extension (png, jpg, jpeg, svg, gif)"
-//        )
         String logoUrl,
 
         Boolean isActive

@@ -8,8 +8,8 @@ import co.istad.corefeature.inventory.facility_inventory.dto.StockRequest;
 import co.istad.corefeature.inventory.facility_inventory.entity.FacilityInventoryEntity;
 import co.istad.corefeature.inventory.facility_inventory.mapper.FacilityInventoryMapper;
 import co.istad.corefeature.inventory.facility_inventory.repository.FacilityInventoryRepository;
-import co.istad.corefeature.product.entity.ProductVariantEntity;
-import co.istad.corefeature.product.repository.ProductVariantRepository;
+import co.istad.corefeature.product.product_variant.entity.ProductVariantEntity;
+import co.istad.corefeature.product.product_variant.repository.ProductVariantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -120,11 +120,14 @@ public class FacilityInventoryServiceImpl implements FacilityInventoryService {
         FacilityInventoryEntity entity = facilityInventoryRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Inventory not found: " + id));
 
-        if (entity.getReservedQuantity() + request.quantity() > entity.getQuantityOnHand()) {
+        int reserved = entity.getReservedQuantity() != null ? entity.getReservedQuantity() : 0;
+        int onHand = entity.getQuantityOnHand() != null ? entity.getQuantityOnHand() : 0;
+
+        if (reserved + request.quantity() > onHand) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Insufficient available stock to reserve");
         }
 
-        entity.setReservedQuantity(entity.getReservedQuantity() + request.quantity());
+        entity.setReservedQuantity(reserved + request.quantity());
         entity = facilityInventoryRepository.save(entity);
         return facilityInventoryMapper.toResponse(entity);
     }
@@ -135,11 +138,13 @@ public class FacilityInventoryServiceImpl implements FacilityInventoryService {
         FacilityInventoryEntity entity = facilityInventoryRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Inventory not found: " + id));
 
-        if (entity.getReservedQuantity() < request.quantity()) {
+        int reserved = entity.getReservedQuantity() != null ? entity.getReservedQuantity() : 0;
+
+        if (reserved < request.quantity()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot release more than the reserved quantity");
         }
 
-        entity.setReservedQuantity(entity.getReservedQuantity() - request.quantity());
+        entity.setReservedQuantity(reserved - request.quantity());
         entity = facilityInventoryRepository.save(entity);
         return facilityInventoryMapper.toResponse(entity);
     }
