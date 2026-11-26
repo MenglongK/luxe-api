@@ -35,3 +35,38 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Environment & Secrets ###
+.env
+.env.*
+*.env
+!.env.example
+!.env.template
+application-local.*
+application-dev.*
+application-prod.*
+application-secret*
+application-secrets*
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.truststore
+*.crt
+*.cer
+*.der
+*.secret
+*.secrets
+secrets.*
+.secrets/
+secrets/
+credentials.*
+*credentials*.json
+service-account*.json
+
+### Logs & OS ###
+*.log
+logs/
+.DS_Store

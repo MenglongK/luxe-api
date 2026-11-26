@@ -32,8 +32,6 @@ import co.istad.corefeature.supplier.entity.SupplierEntity;
 import co.istad.corefeature.supplier.repository.SupplierRepository;
 import co.istad.corefeature.user.customer.entity.CustomerEntity;
 import co.istad.corefeature.user.customer.repository.CustomerRepository;
-import co.istad.corefeature.wallet.entity.WalletEntity;
-import co.istad.corefeature.wallet.repository.WalletRepository;
 import co.istad.corefeature.wishlist.dto.WishlistItemRequest;
 import co.istad.corefeature.wishlist.dto.WishlistRequest;
 import co.istad.corefeature.wishlist.dto.WishlistResponse;
@@ -66,7 +64,6 @@ public class TestDataSeeder implements CommandLineRunner {
     private final CustomerRepository customerRepository;
     private final CustomerPointRepository customerPointRepository;
     private final CustomerPointTransactionRepository customerPointTransactionRepository;
-    private final WalletRepository walletRepository;
     private final OrderService orderService;
     private final ReviewService reviewService;
     private final WishlistService wishlistService;
@@ -89,7 +86,6 @@ public class TestDataSeeder implements CommandLineRunner {
         seedInventories(facilities, variants);
         seedCustomers();
         seedCustomerPoints();
-        seedWallets();
         seedOrders(facilities, variants);
         seedReviews(products);
         seedWishlists(variants);
@@ -310,8 +306,11 @@ public class TestDataSeeder implements CommandLineRunner {
             String customerCode = "cust-vip-" + String.format("%03d", i);
             int points = 1000 * i;
             CustomerPointEntity cp = CustomerPointEntity.builder()
+                    .membershipNumber("MEM-LUXE-" + String.format("%04d", i))
                     .customerId(customerCode)
                     .totalPoints(points)
+                    .lifetimePoints(points)
+                    .tier(CustomerTier.fromPoints(points))
                     .isActive(true)
                     .build();
             cp = customerPointRepository.save(cp);
@@ -326,22 +325,6 @@ public class TestDataSeeder implements CommandLineRunner {
                     .description("VIP Welcome and Atelier tier initialization points")
                     .build();
             customerPointTransactionRepository.save(cpt);
-        }
-    }
-
-    private void seedWallets() {
-        for (int i = 1; i <= 10; i++) {
-            String customerCode = "cust-vip-" + String.format("%03d", i);
-            BigDecimal balance = new BigDecimal(500 * i + ".00");
-            WalletEntity wallet = WalletEntity.builder()
-                    .customerId(customerCode)
-                    .walletNumber("WAL-LUXE-" + String.format("%04d", i))
-                    .balance(balance)
-                    .currency("USD")
-                    .status(WalletStatus.ACTIVE)
-                    .isActive(true)
-                    .build();
-            walletRepository.save(wallet);
         }
     }
 

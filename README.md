@@ -6,7 +6,7 @@ Multi-module Spring Boot backend for the **LUXE** luxury minimalist fashion e-co
 
 Handles the core e-commerce business logic across catalog, shopping, loyalty, inventory, and media storage:
 - **Catalog & Reviews**: Products, variants, categories, brands, and customer reviews
-- **Shopping & Loyalty**: Cart, wishlist, orders, coupons, customer points, and digital wallets
+- **Shopping & Loyalty**: Cart, wishlist, orders, coupons, and customer membership points & tiers
 - **Operations & Media**: Facilities, inventory, suppliers, customers, and file/image storage
 
 ## Tech Stack
